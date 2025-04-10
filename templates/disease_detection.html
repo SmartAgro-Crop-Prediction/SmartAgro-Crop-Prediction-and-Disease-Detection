@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="page-title">Disease Detection</h2>
+
+<div class="upload-container">
+
+    {# Error message if any #}
+    {% if error %}
+    <div class="error-container">
+        <h3>Error: <span class="error-message">{{ error }}</span></h3>
+    </div>
+    {% endif %}
+
+    {# Prediction and Image Display #}
+    {% if result and filename %}
+    <div id="resultView">
+        <h3>Prediction: <span class="prediction-result">{{ result }}</span></h3>
+        <div class="image-preview-container" style="display: block;">
+            <img src="{{ url_for('static', filename='uploads/' + filename) }}"
+                 alt="Uploaded Image"
+                 class="preview-image"
+                 style="max-width: 400px; border: 2px solid #ccc; padding: 5px;">
+        </div>
+        <button class="btn" onclick="showUploadForm()">Try Again</button>
+    </div>
+    {% endif %}
+
+    {# Upload Form (hidden if result is shown) #}
+    <form id="uploadForm" method="POST" enctype="multipart/form-data" {% if result %}style="display:none;"{% endif %}>
+        <label for="cropType">Select Crop:</label>
+        <select name="crop_type" id="cropType" required>
+            <option value="">--Choose Crop--</option>
+            <option value="potato">Potato</option>
+            <option value="apple">Apple</option>
+        </select>
+
+        <div class="drag-drop-area" id="dragDropArea">
+            <p id="dragDropText">Drag and drop an image here or <span class="browse-link">browse</span></p>
+            <input type="file" name="file" id="fileInput" accept="image/*" required hidden>
+        </div>
+
+        <div id="imagePreviewContainer" class="image-preview-container">
+            <img id="imagePreview" src="" alt="Image Preview" hidden>
+        </div>
+
+        <button type="submit" id="submitButton" class="btn">Predict</button>
+    </form>
+</div>
+
+<div id="loadingSpinner" class="spinner" hidden></div>
+
+<script>
+    // Elements
+    const dragDropArea = document.getElementById('dragDropArea');
+    const fileInput = document.getElementById('fileInput');
+    const imagePreview = document.getElementById('imagePreview');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const dragDropText = document.getElementById('dragDropText');
+
+    // Open file dialog
+    dragDropArea.addEventListener('click', () => fileInput.click());
+
+    // Drag and drop
+    dragDropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.add('drag-over');
+        dragDropText.innerText = 'Release to upload your image!';
+    });
+
+    dragDropArea.addEventListener('dragleave', () => {
+        dragDropArea.classList.remove('drag-over');
+        dragDropText.innerText = 'Drag and drop an image here or browse';
+    });
+
+    dragDropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dragDropArea.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            displayPreview(files[0]);
+        }
+    });
+
+    // File change
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            displayPreview(fileInput.files[0]);
+        }
+    });
+
+    // Image preview
+    function displayPreview(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imagePreview.hidden = false;
+            imagePreviewContainer.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Show spinner on submit
+    const uploadForm = document.getElementById('uploadForm');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    uploadForm.addEventListener('submit', () => {
+        loadingSpinner.hidden = false;
+    });
+
+    // "Try Again" functionality
+    function showUploadForm() {
+        document.getElementById('uploadForm').style.display = 'block';
+        document.getElementById('resultView').style.display = 'none';
+        imagePreviewContainer.style.display = 'none';
+    }
+</script>
+{% endblock %}

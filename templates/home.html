@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="slider-box">
+            <div class="text-slide active">Welcome to SMART AGRO</div>
+            <div class="text-slide">Empowering farmers with technology</div>
+            <div class="text-slide">Sustainable solutions for agriculture</div>
+
+            <button class="slider-arrow left" onclick="changeSlide(-1)">&#10094;</button>
+            <button class="slider-arrow right" onclick="changeSlide(1)">&#10095;</button>
+        </div>
+    </div>
+</section>
+{% endblock %}

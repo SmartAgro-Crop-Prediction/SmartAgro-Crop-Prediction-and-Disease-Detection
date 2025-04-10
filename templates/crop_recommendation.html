@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="page-title">Crop Recommendation</h2>
+
+<!-- Form Section -->
+<div class="form-container" {% if prediction %}style="display: none;"{% endif %}>
+    <form id="cropForm" method="POST">
+        <div class="form-group">
+            <label for="N">Nitrogen (N):</label>
+            <input type="number" id="N" name="N" placeholder="Enter Nitrogen value" step="0.01" required>
+            <span class="tooltip">Amount of Nitrogen in soil (ppm)</span>
+        </div>
+        <div class="form-group">
+            <label for="P">Phosphorus (P):</label>
+            <input type="number" id="P" name="P" placeholder="Enter Phosphorus value" step="0.01" required>
+            <span class="tooltip">Amount of Phosphorus in soil (ppm)</span>
+        </div>
+        <div class="form-group">
+            <label for="K">Potassium (K):</label>
+            <input type="number" id="K" name="K" placeholder="Enter Potassium value" step="0.01" required>
+            <span class="tooltip">Amount of Potassium in soil (ppm)</span>
+        </div>
+        <div class="form-group">
+            <label for="temperature">Temperature (°C):</label>
+            <input type="number" id="temperature" name="temperature" placeholder="Enter temperature" step="0.01" required>
+            <span class="tooltip">Ambient temperature (°C)</span>
+        </div>
+        <div class="form-group">
+            <label for="humidity">Humidity (%):</label>
+            <input type="number" id="humidity" name="humidity" placeholder="Enter humidity" step="0.01" required>
+            <span class="tooltip">Atmospheric humidity (%)</span>
+        </div>
+        <div class="form-group">
+            <label for="ph">pH Level:</label>
+            <input type="number" id="ph" name="ph" placeholder="Enter pH level" step="0.01" required>
+            <span class="tooltip">Soil pH level</span>
+        </div>
+        <div class="form-group">
+            <label for="rainfall">Rainfall (mm):</label>
+            <input type="number" id="rainfall" name="rainfall" placeholder="Enter rainfall" step="0.01" required>
+            <span class="tooltip">Annual rainfall (mm)</span>
+        </div>
+
+        <button type="submit" class="btn">Predict</button>
+    </form>
+</div>
+
+<!-- Result Section -->
+{% if prediction %}
+<div class="result-container">
+    <h3>Recommended Crop: <span class="result">{{ prediction }}</span></h3>
+    <div class="result-values">
+        <p><strong>Nitrogen:</strong> {{ values.N }}</p>
+        <p><strong>Phosphorus:</strong> {{ values.P }}</p>
+        <p><strong>Potassium:</strong> {{ values.K }}</p>
+        <p><strong>Temperature:</strong> {{ values.temperature }} °C</p>
+        <p><strong>Humidity:</strong> {{ values.humidity }} %</p>
+        <p><strong>pH Level:</strong> {{ values.ph }}</p>
+        <p><strong>Rainfall:</strong> {{ values.rainfall }} mm</p>
+    </div>
+    <form method="GET">
+        <button type="submit" class="btn">Try Again</button>
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}

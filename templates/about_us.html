@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="about-us">
+        <div class="content-container">
+            <h2 class="page-title">About Us</h2>
+            <p>Welcome to SMART AGRO! We are dedicated to empowering farmers with modern technology to improve agricultural productivity and sustainability. Our goal is to provide innovative solutions for crop recommendations and disease detection, leveraging machine learning and deep learning models to assist farmers in making informed decisions.</p>
+            
+            <h3>Our Mission</h3>
+            <p>At SMART AGRO, we strive to enhance the productivity and profitability of farmers by providing them with accurate insights based on advanced data science techniques. Our tools are designed to make farming more efficient, reduce risks, and ultimately improve crop yields.</p>
+            
+            <h3>Meet the Team</h3>
+            <div class="team-members">
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/team_member1.jpg') }}" alt="Team Member 1">
+                    <h4>Arshia Agarwal</h4>
+                    <p>UI/Frontend Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/team_member2.jpg') }}" alt="Team Member 2">
+                    <h4>Dheeraj Saini</h4>
+                    <p>ML & Backened Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/team_member3.jpg') }}" alt="Team Member 3">
+                    <h4>Bhavya Goyal</h4>
+                    <p>UI/Frontend Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="{{ url_for('static', filename='images/team_member4.jpg') }}" alt="Team Member 4">
+                    <h4>Kartik Sarda</h4>
+                    <p>Deep Learning Model Developer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
